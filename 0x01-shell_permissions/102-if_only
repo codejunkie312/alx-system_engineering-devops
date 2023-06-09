@@ -1,2 +1,2 @@
 #!/bin/bash
-[[ $(stat -c %U test) == "betty" ]] && chown root test
+find . -user guillaume -exec chown betty {} +
