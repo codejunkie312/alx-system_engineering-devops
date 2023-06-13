@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -type f -empty -exec ls -la {} + | cut -d " " -f 9-  
+find . -empty \( -type f -o -type d \) -printf "%f\n"
