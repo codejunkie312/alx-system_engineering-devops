@@ -1,0 +1,2 @@
+#!/bin/bash
+find . -type f -empty -exec ls -la {} + | cut -d " " -f 9-  
