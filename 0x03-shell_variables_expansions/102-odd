@@ -1,0 +1,2 @@
+#!/bin/bash
+nl -ba -s '#' | grep -E '[13579]?[13579]#' | cut -d '#' -f 2
