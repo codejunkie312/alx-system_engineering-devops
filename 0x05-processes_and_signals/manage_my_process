@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# keeps writing I am alive forever to the file /tmp/ny_process
+while true
+do
+    subo bash -c 'echo "I am alive!" >> /tmp/my_process'
+    sleep 2
+done
