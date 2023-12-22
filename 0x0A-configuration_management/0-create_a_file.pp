@@ -1,3 +1,4 @@
+# Creates a file in /tmp/ named school
 file { '/tmp/school':
   ensure  => 'file',
   owner   => 'www-data',
