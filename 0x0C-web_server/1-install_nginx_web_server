@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# a script that configures a new Ubuntu machine with Nginx
+apt-get update
+apt-get install -y nginx
+echo "Hello World!" > /var/www/html/index.html
+nginx -t
+/usr/sbin/nginx
+curl -I http://localhost
