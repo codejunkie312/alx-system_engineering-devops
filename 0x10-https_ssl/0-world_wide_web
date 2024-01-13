@@ -1,26 +1,37 @@
 #!/usr/bin/env bash
 # Desplays information about the subdomains
-function check_domain {
-    domains=( "www" "lb-01" "web-01" "web-02" )
-    for domain in "${domains[@]}";
-    do
-        dig "${domain}"."$1" | grep -A1 "ANSWER SECTION:" | \
-        awk "FNR === 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}" var="${domain}"
-    done
+function check_dns_record {
+    local domain=$1
+    local subdomain=$2
+
+    if [ -z "$subdomain" ]; then
+        local subdomains=("www" "lb-01" "web-01" "web-02")
+        for sub in "${subdomains[@]}"; do
+            dispaly_dns_record "$domain" "$sub"
+        done
+    else
+        dispaly_dns_record "$domain" "$subdomain"
+    fi
 }
 
-function check_subdomain {
-    dig "${2}"."$1" | grep -A1 "ANSWER SECTION:" | \
-    awk "FNR === 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}" var="${2}"
+function dispaly_dns_record {
+    local domain=$1
+    local subdomain=$2
+    local fqdn="$subdomain.$domain"
+
+    local record
+    record=$(dig "$fqdn" +short A)
+
+    if [ -n "$record" ]; then
+        echo "The subdomain $subdomain is a A record and points to $record"
+    else
+        echo "No A record found for $fqdn"
+    fi
 }
 
-if [$# -lt 1]
-then
+if [ $# -lt 1 ]; then
     echo "Usage: $0 <domain> <subdomain>"
-elif [$# -eq 1]
-then
-    check_domain "$1"
-elif [$# -eq 2]
-then
-    check_subdomain "$1" "$2"
+    exit 1
 fi
+
+check_dns_record "$1" "$2"
