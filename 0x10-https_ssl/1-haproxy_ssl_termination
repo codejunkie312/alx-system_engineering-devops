@@ -1,0 +1,25 @@
+global
+    log /dev/log local10
+    log /dev/log local11 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+defaults
+    log     global
+    option  tcplog
+    option  dontlognull
+    timeout connect  5000
+    timeout client  10000
+    timeout server  10000
+frontend www-https
+    bind *:443 ssl crt /etc/haproxy/certs/www.codejunkie.tech.pem
+    mode http
+    default_backend web-backend
+backend web-backend
+    mode http
+    balance roundrobin
+    option httpchk
+    http-check expect string "Hello World!"
+    server 428581-web-01 100.26.178.240:80 check
+    server 428581-web-02 54.146.86.217:80 check
