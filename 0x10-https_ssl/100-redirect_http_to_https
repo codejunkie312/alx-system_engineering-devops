@@ -1,0 +1,33 @@
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    tune.ssl.default-dh-param 2048
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    option  tcplog
+    option  dontlognull
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+frontend http-in
+    bind *:80
+    mode http
+    redirect scheme https code 301 if !{ ssl_fc }
+
+frontend www-https
+    mode http
+    bind *:443 ssl crt /etc/haproxy/certs/www.codejunkie.tech.pem
+    default_backend web-backend
+
+backend web-backend
+    mode http
+    balance roundrobin
+    http-check expect string "Holberton School"
+    server 428581-web-01 100.26.178.240:80 check
+    server 428581-web-02 54.146.86.217:80 check
