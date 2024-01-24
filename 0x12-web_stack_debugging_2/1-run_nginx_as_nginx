@@ -11,5 +11,5 @@ sudo chown -R nginx:nginx /var/log/nginx
 sudo chown -R nginx:nginx /var/lib/nginx
 
 sudo systemctl restart nginx
-ps -aux | grep nginx
+pgrep -a nginx
 sudo netstat -tulnp | grep nginx
