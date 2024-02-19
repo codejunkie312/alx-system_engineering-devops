@@ -13,6 +13,7 @@
 * 3:05 AM: Started steadily launching the page to students
 * 5:30 AM: reached 100% redployement of all features of ALX site
 # Root Cause and Resolution
+![alt text](image.png)
 * N/A
 # Corrective and Preventive Measures
 * Make sure that a routine test is conducted before the launch of a new project before official launch date
